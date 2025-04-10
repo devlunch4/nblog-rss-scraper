@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Naver Blog RSS Scraper</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+    <h1>Naver Blog RSS Scraper</h1>
+    <div class="input-container">
+        <label for="accountName">블로그 계정명: </label>
+        <input type="text" id="accountName" placeholder="예: blogpeople">
+        <button onclick="fetchBlogData()">불러오기</button>
+    </div>
+    <table id="blogTable">
+        <thead>
+            <tr>
+                <th>순번</th>
+                <th>작성일</th>
+                <th>제목</th>
+                <th>링크</th>
+            </tr>
+        </thead>
+        <tbody id="blogTableBody"></tbody>
+    </table>
+
+    <script>
+        async function fetchBlogData() {
+            const accountName = document.getElementById('accountName').value.trim();
+            if (!accountName) {
+                alert('계정명을 입력해주세요!');
+                return;
+            }
+
+            const url = `https://api.allorigins.win/raw?url=${encodeURIComponent('https://rss.blog.naver.com/' + accountName + '.xml')}`;
+            const tableBody = document.getElementById('blogTableBody');
+            tableBody.innerHTML = '<tr><td colspan="4">데이터를 불러오는 중...</td></tr>';
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) throw new Error('네트워크 응답이 실패했습니다.');
+                const xmlText = await response.text();
+                const parser = new DOMParser();
+                const xmlDoc = parser.parseFromString(xmlText, 'text/xml');
+
+                if (xmlDoc.getElementsByTagName('parsererror').length > 0) {
+                    throw new Error('XML 파싱 오류');
+                }
+
+                const items = xmlDoc.getElementsByTagName('item');
+                const blogData = [];
+
+                for (let item of items) {
+                    const pubDate = item.getElementsByTagName('pubDate')[0].textContent;
+                    const title = item.getElementsByTagName('title')[0].textContent;
+                    const link = item.getElementsByTagName('guid')[0].textContent;
+                    const formattedDate = resetPubDate(pubDate);
+                    blogData.push({ date: formattedDate, title, link });
+                }
+
+                blogData.reverse();
+                tableBody.innerHTML = '';
+                blogData.forEach((data, index) => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td>${data.date}</td>
+                        <td>${data.title}</td>
+                        <td><a href="${data.link}" target="_blank">${data.link}</a></td>
+                    `;
+                    tableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error('에러 발생:', error);
+                tableBody.innerHTML = `<tr><td colspan="4">데이터를 불러오는 데 실패했습니다: ${error.message}</td></tr>`;
+            }
+        }
+
+        function resetPubDate(pubDate) {
+            const splitDate = pubDate.split(' ');
+            const day = splitDate[1];
+            const month = splitDate[2];
+            const year = splitDate[3];
+            const monthDict = {
+                'Jan': '01', 'Feb': '02', 'Mar': '03', 'Apr': '04',
+                'May': '05', 'Jun': '06', 'Jul': '07', 'Aug': '08',
+                'Sep': '09', 'Oct': '10', 'Nov': '11', 'Dec': '12'
+            };
+            const monthNum = monthDict[month];
+            return `${year}/${monthNum}/${day}`;
+        }
+    </script>
+
+ 
+
+</body>
+
+<footer>
+    <p>© 2025 devlunch4@gmail.com</p>
+</footer>
+
+</html>
