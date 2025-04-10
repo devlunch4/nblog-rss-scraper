@@ -5,7 +5,121 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Naver Blog RSS Scraper</title>
-    <link rel="stylesheet" href="/style.css">
+    <!-- <link rel="stylesheet" href="/style.css"> -->
+    <style>
+        /* 전체 레이아웃 스타일 */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        /* 제목 스타일 */
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            font-size: 2rem;
+            margin-bottom: 30px;
+            font-weight: 600;
+        }
+
+        /* 입력 영역 스타일 */
+        .input-container {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .input-container label {
+            font-size: 1.1rem;
+            margin-right: 10px;
+            color: #34495e;
+        }
+
+        .input-container input {
+            padding: 8px 12px;
+            font-size: 1rem;
+            border: 1px solid #dcdcdc;
+            border-radius: 4px;
+            width: 200px;
+            transition: border-color 0.3s ease;
+        }
+
+        .input-container input:focus {
+            border-color: #3498db;
+            outline: none;
+        }
+
+        .input-container button {
+            padding: 8px 20px;
+            font-size: 1rem;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .input-container button:hover {
+            background-color: #2980b9;
+        }
+
+        /* 테이블 스타일 */
+        #blogTable {
+            width: 80%;
+            margin: 0 auto;
+            border-collapse: collapse;
+            background-color: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        #blogTable th {
+            background-color: #f2f2f2;
+            padding: 12px 15px;
+            text-align: left;
+            font-weight: 500;
+            color: #2c3e50;
+            border-bottom: 2px solid #dcdcdc;
+        }
+
+        #blogTable td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        #blogTable tbody tr:hover {
+            background-color: #f9f9f9;
+            transition: background-color 0.2s ease;
+        }
+
+        /* 링크 스타일 */
+        #blogTable a {
+            color: #3498db;
+            text-decoration: none;
+            word-break: break-all;
+        }
+
+        #blogTable a:hover {
+            text-decoration: underline;
+            color: #2980b9;
+        }
+
+        footer {
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+            /* 표와의 간격을 위해 추가 */
+            color: #666;
+            /* 선택: 텍스트 색상 조정 */
+            font-size: 14px;
+            /* 선택: 글자 크기 조정 */
+        }
+    </style>
 </head>
 
 <body>
@@ -94,7 +208,7 @@
         }
     </script>
 
- 
+
 
 </body>
 
